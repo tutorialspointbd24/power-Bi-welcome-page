@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<link rel="icon" href="icon.png">
+<title>Tutorials Point BD — Power BI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="icon" type="image/x-icon" href="logos.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f5f4ff;--bg-card:#ffffff;--bg-card-h:#f9f8ff;
+  --border:rgba(100,80,240,0.12);--border-strong:rgba(100,80,240,0.22);
+  --text-h:#12103a;--text-b:#2d2b55;--text-m:#5c5a80;--text-s:#8886a8;
+  --accent:#5b4fff;--accent2:#7c3aed;
+  --shadow-sm:0 2px 12px rgba(91,79,255,0.08);
+  --shadow-md:0 8px 32px rgba(91,79,255,0.14);
+  --shadow-lg:0 20px 60px rgba(91,79,255,0.18);
+  --r:18px;--dur:0.3s;
+}
+[data-theme="dark"]{
+  --bg:#0b0b1a;--bg-card:#13122a;--bg-card-h:#1a1938;
+  --border:rgba(130,110,255,0.14);--border-strong:rgba(130,110,255,0.28);
+  --text-h:#eeeeff;--text-b:#c8c6f0;--text-m:#8e8cb8;--text-s:#5e5c80;
+  --shadow-sm:0 2px 12px rgba(0,0,0,0.4);
+  --shadow-md:0 8px 32px rgba(0,0,0,0.5);
+  --shadow-lg:0 20px 60px rgba(0,0,0,0.6);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-b);min-height:100vh;transition:background var(--dur),color var(--dur);overflow-x:hidden;}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(91,79,255,0.3);border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:rgba(91,79,255,0.55)}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(91,79,255,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(91,79,255,0.045) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 50% 0%,black 0%,transparent 100%);}
+[data-theme="dark"] .grid-bg{background-image:linear-gradient(rgba(130,110,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(130,110,255,0.07) 1px,transparent 1px);}
+.glow-blob{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(100px);opacity:0.18;animation:blob-drift 14s ease-in-out infinite alternate;}
+[data-theme="dark"] .glow-blob{opacity:0.12}
+.glow-1{width:600px;height:600px;background:#5b4fff;top:-200px;left:-150px}
+.glow-2{width:500px;height:500px;background:#a855f7;bottom:-100px;right:-100px;animation-delay:5s}
+.glow-3{width:350px;height:350px;background:#06b6d4;top:40%;left:55%;animation-delay:9s}
+@keyframes blob-drift{0%{transform:translate(0,0)}100%{transform:translate(30px,25px) scale(1.06)}}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 24px 100px}
+header{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:68px;background:rgba(245,244,255,0.75);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:background var(--dur),border-color var(--dur);}
+[data-theme="dark"] header{background:rgba(11,11,26,0.8)}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;color:#fff;letter-spacing:-0.5px;flex-shrink:0;background:linear-gradient(145deg,#f2c811,#e6a800);box-shadow:0 4px 16px rgba(242,200,17,0.45);color:#1a1a2e;}
+.logo-name{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text-h);letter-spacing:-0.3px;line-height:1.1;}
+.logo-sub{font-size:0.68rem;font-weight:500;color:var(--text-s);letter-spacing:0.06em;text-transform:uppercase}
+.header-r{display:flex;align-items:center;gap:10px}
+.badge-pill{font-size:0.72rem;font-weight:600;color:var(--accent);background:rgba(91,79,255,0.1);border:1px solid rgba(91,79,255,0.2);padding:5px 13px;border-radius:99px;letter-spacing:0.02em;display:none;}
+@media(min-width:560px){.badge-pill{display:block}}
+#tog{position:relative;width:46px;height:26px;background:linear-gradient(135deg,#5b4fff,#a855f7);border:none;border-radius:99px;cursor:pointer;flex-shrink:0;transition:var(--dur);}
+#tog::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:var(--dur);box-shadow:0 1px 6px rgba(0,0,0,0.2);}
+[data-theme="dark"] #tog::after{transform:translateX(20px)}
+.hero{text-align:center;padding:72px 16px 56px;}
+.hero-chip{display:inline-flex;align-items:center;gap:7px;font-size:0.73rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#b8860b;background:rgba(242,200,17,0.12);border:1px solid rgba(242,200,17,0.25);padding:6px 14px;border-radius:99px;margin-bottom:24px;}
+[data-theme="dark"] .hero-chip{color:#f2c811;background:rgba(242,200,17,0.08);border-color:rgba(242,200,17,0.2);}
+.hero-chip .dot{width:6px;height:6px;border-radius:50%;background:#f2c811;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:900;letter-spacing:-1.5px;line-height:1.1;color:var(--text-h);margin-bottom:18px;}
+.hero h1 span{background:linear-gradient(135deg,#f2c811 0%,#e6a800 50%,#f59e0b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{font-size:1.05rem;font-weight:400;line-height:1.75;color:var(--text-m);max-width:520px;margin:0 auto;}
+section{margin-top:72px}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:36px}
+.sec-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.sec-title{font-family:'Outfit',sans-serif;font-size:clamp(1.25rem,3vw,1.65rem);font-weight:800;letter-spacing:-0.5px;color:var(--text-h);line-height:1.2;}
+.sec-desc{font-size:0.82rem;color:var(--text-m);margin-top:4px;font-weight:500}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(292px,1fr));gap:16px}
+.ccard{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:18px;transition:transform var(--dur),box-shadow var(--dur),border-color var(--dur),background var(--dur);will-change:transform;}
+.ccard:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:var(--border-strong);background:var(--bg-card-h);}
+.ctop{display:flex;align-items:center;gap:14px}
+.cico{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+.cico svg{display:block}
+.cname{font-size:0.98rem;font-weight:700;color:var(--text-h);line-height:1.3}
+.cdesc{font-size:0.76rem;font-weight:500;color:var(--text-m);margin-top:3px}
+.cbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:12px;font-size:0.8rem;font-weight:700;color:#fff;text-decoration:none;letter-spacing:0.02em;transition:opacity .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(0,0,0,0.2);border:none;cursor:pointer;}
+.cbtn:hover{opacity:0.88;transform:scale(1.03);box-shadow:0 6px 24px rgba(0,0,0,0.3)}
+.cbtn svg{flex-shrink:0;width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none}
+.rule{height:1px;margin:72px 0 0;background:linear-gradient(90deg,transparent,var(--border-strong),transparent);}
+.steps{display:flex;flex-direction:column;gap:12px;margin-bottom:40px}
+.step{display:flex;align-items:flex-start;gap:16px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow-sm);transition:transform var(--dur),box-shadow var(--dur),border-color var(--dur);position:relative;overflow:hidden;}
+.step:hover{transform:translateX(5px);box-shadow:var(--shadow-md);border-color:var(--border-strong)}
+.snum{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:900;color:#fff;box-shadow:0 3px 12px rgba(0,0,0,0.2);}
+.sbody h4{font-size:0.95rem;font-weight:700;color:var(--text-h);margin-bottom:5px}
+.sbody p{font-size:0.8rem;color:var(--text-m);line-height:1.65;font-weight:400}
+.sbody a{font-weight:600;text-decoration:none;border-bottom:1px dashed currentColor;transition:opacity .2s;}
+.sbody a:hover{opacity:0.75}
+
+/* Power BI specific */
+.pbi-embed{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:8px;box-shadow:var(--shadow-sm);overflow:hidden;}
+.pbi-inner{position:relative;width:100%;padding-top:56.25%;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,rgba(242,200,17,0.06),rgba(230,168,0,0.04));}
+.pbi-inner iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:12px;}
+.pbi-cap{display:flex;align-items:center;gap:8px;padding:12px 16px 8px;font-size:0.78rem;font-weight:600;color:var(--text-m);}
+.pbi-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#f2c811,#e6a800);}
+.pbi-badge{display:inline-flex;align-items:center;gap:6px;font-size:0.68rem;font-weight:700;color:#b8860b;background:rgba(242,200,17,0.12);border:1px solid rgba(242,200,17,0.25);padding:4px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:0.06em;}
+[data-theme="dark"] .pbi-badge{color:#f2c811;background:rgba(242,200,17,0.08);border-color:rgba(242,200,17,0.2);}
+
+/* ── VIDEO FIX: responsive 16:9 wrapper ── */
+.vbox{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:8px;box-shadow:var(--shadow-sm);overflow:hidden;}
+.vinner{position:relative;width:100%;padding-top:56.25%;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,rgba(91,79,255,0.08),rgba(168,85,247,0.06));}
+.vinner video{position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:12px;display:block;background:#000;object-fit:contain;}
+.vcap{display:flex;align-items:center;gap:8px;padding:12px 16px 8px;font-size:0.78rem;font-weight:600;color:var(--text-m);}
+.vcap-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.anim{opacity:0;transform:translateY(22px);transition:opacity 0.55s ease,transform 0.55s ease}
+.anim.visible{opacity:1;transform:none}
+@media(max-width:580px){
+  header{padding:0 18px}
+  .logo-name{font-size:0.92rem}
+  .hero{padding:52px 0 36px}
+  .cards{grid-template-columns:1fr}
+  .wrap{padding:0 16px 80px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="glow-blob glow-1" aria-hidden="true"></div>
+<div class="glow-blob glow-2" aria-hidden="true"></div>
+<div class="glow-blob glow-3" aria-hidden="true"></div>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">PB</div>
+    <div>
+      <div class="logo-name">Tutorials Point BD</div>
+      <div class="logo-sub">Power BI Learning</div>
+    </div>
+  </div>
+  <div class="header-r">
+    <span class="badge-pill">Power BI</span>
+    <button id="tog" aria-label="Toggle dark mode"></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero anim">
+    <div class="hero-chip"><span class="dot"></span>Microsoft Power BI</div>
+    <h1>Learn <span>Power BI</span> with Tutorials Point BD</h1>
+    <p>Master data visualization, dashboard creation, and business intelligence — from beginner to advanced. Access live classes, recorded sessions, and community support.</p>
+  </div>
+
+  <!-- Quick Stats -->
+  <section class="anim">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;">
+      <div class="ccard" style="padding:22px 20px;text-align:center;gap:6px;">
+        <div style="font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;background:linear-gradient(135deg,#f2c811,#e6a800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">20+</div>
+        <div style="font-size:0.78rem;font-weight:600;color:var(--text-m);">Video Lessons</div>
+      </div>
+      <div class="ccard" style="padding:22px 20px;text-align:center;gap:6px;">
+        <div style="font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;background:linear-gradient(135deg,#5b4fff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">10+</div>
+        <div style="font-size:0.78rem;font-weight:600;color:var(--text-m);">Projects</div>
+      </div>
+      <div class="ccard" style="padding:22px 20px;text-align:center;gap:6px;">
+        <div style="font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">24/7</div>
+        <div style="font-size:0.78rem;font-weight:600;color:var(--text-m);">Support</div>
+      </div>
+      <div class="ccard" style="padding:22px 20px;text-align:center;gap:6px;">
+        <div style="font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;background:linear-gradient(135deg,#ef4444,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">100%</div>
+        <div style="font-size:0.78rem;font-weight:600;color:var(--text-m);">Practical</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join Links -->
+  <section class="anim">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:linear-gradient(135deg,rgba(242,200,17,0.15),rgba(230,168,0,0.1));border:1px solid rgba(242,200,17,0.25)">🔗</div>
+      <div>
+        <div class="sec-title">Live Class Join &amp; Group Links</div>
+        <div class="sec-desc">Connect with our Power BI community across every platform</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#22c55e,#15803d)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.556 4.119 1.527 5.845L0 24l6.335-1.509A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.368l-.359-.214-3.72.886.9-3.638-.234-.374A9.818 9.818 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+          </div>
+          <div><div class="cname">WA Support Group</div><div class="cdesc">Instant help from tutors &amp; peers</div></div>
+        </div>
+        <a class="cbtn" href="https://chat.whatsapp.com/ChkZ9Fcee0GLFM3QUbl2t6?s=cl&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#22c55e,#15803d);box-shadow:0 4px 18px rgba(34,197,94,0.35)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Join Support Group
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#5b4fff,#7c3aed)">
+            <svg width="24" height="24" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div><div class="cname">Our Community</div><div class="cdesc">Connect, share &amp; grow together</div></div>
+        </div>
+        <a class="cbtn" href="https://chat.whatsapp.com/GbFV7Vj0PCc0zYU1EAEttS" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#5b4fff,#7c3aed);box-shadow:0 4px 18px rgba(91,79,255,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Join Community
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#2563eb,#1d4ed8)">
+            <svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </div>
+          <div><div class="cname">Facebook Group</div><div class="cdesc">Discussions, Q&amp;A &amp; announcements</div></div>
+        </div>
+        <a class="cbtn" href="https://www.facebook.com/groups/498409769958925" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);box-shadow:0 4px 18px rgba(37,99,235,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Join FB Group
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#ef4444,#b91c1c)">
+            <svg width="24" height="24" viewBox="0 0 24 24"><path fill="#fff" d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon fill="#ef4444" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </div>
+          <div><div class="cname">YouTube Platform</div><div class="cdesc">Free tutorials &amp; course previews</div></div>
+        </div>
+        <a class="cbtn" href="https://www.youtube.com/@PyPlatoonsbd" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#ef4444,#b91c1c);box-shadow:0 4px 18px rgba(239,68,68,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Visit YouTube
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#0ea5e9,#0284c7)">
+            <svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </div>
+          <div><div class="cname">Official Facebook Page</div><div class="cdesc">Latest updates &amp; live sessions</div></div>
+        </div>
+        <a class="cbtn" href="https://www.facebook.com/tutorialspointbangladesh12" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);box-shadow:0 4px 18px rgba(14,165,233,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Like Our Page
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#f59e0b,#d97706)">
+            <svg width="24" height="24" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div><div class="cname">Contact via Email</div><div class="cdesc">Send us your queries anytime</div></div>
+        </div>
+        <a class="cbtn" href="mailto:contact@tutorialspointbd.com" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 18px rgba(245,158,11,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Mail Us
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#10b981,#059669)">
+            <svg width="24" height="24" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+          </div>
+          <div><div class="cname">WhatsApp Direct</div><div class="cdesc">Chat with us on WhatsApp</div></div>
+        </div>
+        <a class="cbtn" href="https://wa.me/+8801604519157" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 4px 18px rgba(16,185,129,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>Contact on WA
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- Power BI Resources -->
+  <section class="anim">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:linear-gradient(135deg,rgba(242,200,17,0.15),rgba(230,168,0,0.1));border:1px solid rgba(242,200,17,0.25)">📊</div>
+      <div>
+        <div class="sec-title">Power BI Resources &amp; Downloads</div>
+        <div class="sec-desc">Essential tools &amp; links for your Power BI journey</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#f2c811,#e6a800)">
+            <svg width="24" height="24" fill="#1a1a2e" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div><div class="cname">Power BI Desktop</div><div class="cdesc">Download the latest version for free</div></div>
+        </div>
+        <a class="cbtn" href="https://powerbi.microsoft.com/desktop/" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#f2c811,#e6a800);color:#1a1a2e;box-shadow:0 4px 18px rgba(242,200,17,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Download Now
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#5b4fff,#7c3aed)">
+            <svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div><div class="cname">Sample Datasets</div><div class="cdesc">Practice datasets for hands-on learning</div></div>
+        </div>
+        <a class="cbtn" href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-datasets" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#5b4fff,#7c3aed);box-shadow:0 4px 18px rgba(91,79,255,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Get Datasets
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#10b981,#059669)">
+            <svg width="24" height="24" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div><div class="cname">DAX Guide</div><div class="cdesc">Complete DAX function reference</div></div>
+        </div>
+        <a class="cbtn" href="https://dax.guide/" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 4px 18px rgba(16,185,129,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Open DAX Guide
+        </a>
+      </div>
+      <div class="ccard anim">
+        <div class="ctop">
+          <div class="cico" style="background:linear-gradient(145deg,#ef4444,#b91c1c)">
+            <svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div><div class="cname">Power BI Blog</div><div class="cdesc">Latest updates &amp; feature releases</div></div>
+        </div>
+        <a class="cbtn" href="https://powerbi.microsoft.com/blog/" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#ef4444,#b91c1c);box-shadow:0 4px 18px rgba(239,68,68,0.4)">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Read Blog
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- How to Get Started -->
+  <section class="anim">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(6,182,212,0.1));border:1px solid rgba(16,185,129,0.2)">🎬</div>
+      <div>
+        <div class="sec-title">How to Get Started — Pre-recorded Videos</div>
+        <div class="sec-desc">3 simple steps to access your enrolled Power BI course</div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step anim">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#5b4fff,#7c3aed);border-radius:3px 0 0 3px"></div>
+        <div class="snum" style="background:linear-gradient(135deg,#5b4fff,#7c3aed);box-shadow:0 3px 12px rgba(91,79,255,0.4)">01</div>
+        <div class="sbody">
+          <h4>Log in to your account</h4>
+          <p>Visit the login page and sign in with your registered email and password. &nbsp;<a href="https://tutorialspointbd.com/my-account/" target="_blank" rel="noopener" style="color:#5b4fff">tutorialspointbd.com/my-account/</a></p>
+        </div>
+      </div>
+      <div class="step anim">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#10b981,#059669);border-radius:3px 0 0 3px"></div>
+        <div class="snum" style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 3px 12px rgba(16,185,129,0.4)">02</div>
+        <div class="sbody">
+          <h4>Find your Power BI course</h4>
+          <p>Go to the course list and locate the Power BI course you've enrolled in. &nbsp;<a href="https://tutorialspointbd.com/courses-list/" target="_blank" rel="noopener" style="color:#10b981">tutorialspointbd.com/courses-list/</a></p>
+        </div>
+      </div>
+      <div class="step anim">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#f59e0b,#d97706);border-radius:3px 0 0 3px"></div>
+        <div class="snum" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 3px 12px rgba(245,158,11,0.4)">03</div>
+        <div class="sbody">
+          <h4>Click "Start Learning"</h4>
+          <p>Hit the <strong style="color:var(--text-h);font-weight:700">Start Learning</strong> button on your course card to begin watching your lessons immediately.</p>
+        </div>
+      </div>
+    </div>
+    <div class="vbox anim">
+      <div class="vinner">
+        <video src="How To start Course.mp4" title="Pre-recorded Course Access Guide" controls preload="metadata" playsinline></video>
+      </div>
+      <div class="vcap">
+        <div class="vcap-dot" style="background:linear-gradient(135deg,#10b981,#06b6d4)"></div>
+        Pre-recorded Course Access Guide — how to set up your learning dashboard
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- How to Start Your Course -->
+  <section class="anim">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(236,72,153,0.1));border:1px solid rgba(168,85,247,0.2)">🚀</div>
+      <div>
+        <div class="sec-title">How to Start Your Power BI Course</div>
+        <div class="sec-desc">Complete walkthrough — navigate lessons &amp; track your progress</div>
+      </div>
+    </div>
+    <div class="vbox anim">
+      <div class="vinner">
+        <video src="data.mp4" title="How to Start Your Course" controls preload="metadata" playsinline></video>
+      </div>
+      <div class="vcap">
+        <div class="vcap-dot" style="background:linear-gradient(135deg,#a855f7,#ec4899)"></div>
+        Full Course Walkthrough — lessons, progress tracking &amp; course completion
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const html=document.documentElement;
+const tog=document.getElementById('tog');
+const saved=localStorage.getItem('tp-theme');
+if(saved)html.setAttribute('data-theme',saved);
+tog.addEventListener('click',()=>{
+  const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',next);
+  localStorage.setItem('tp-theme',next);
+});
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.08});
+document.querySelectorAll('.anim').forEach(el=>io.observe(el));
+document.querySelectorAll('.ccard,.step').forEach((el,i)=>{
+  el.style.transitionDelay=(i*60)+'ms';
+});
+</script>
+</body>
+</html>
